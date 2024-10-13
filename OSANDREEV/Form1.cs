@@ -74,11 +74,12 @@ namespace OSANDREEV
                         }
 
                         // удаление выполненных
-                        foreach (TaskOS X in activeQueue)
-                        {
-                            if (X == null) break;
-                            if (X.COMMAND == status.Completed) DeleteRowById(X.TASK_ID);
-                        }
+                        //foreach (TaskOS X in activeQueue)
+                        //{
+                        //    if (X == null) break;
+                        //    if (X.COMMAND == status.Completed) DeleteRowById(X.TASK_ID);
+                        //}
+
                     }
 
 
@@ -207,7 +208,7 @@ namespace OSANDREEV
         private void addTask_Click(object sender, EventArgs e)
         {
             if ( string.IsNullOrWhiteSpace(memory.Text) || string.IsNullOrWhiteSpace(numberOfCommands.Text)) { MessageBox.Show("Значения не должны быть пустыми", "Ошибка", MessageBoxButtons.OK); return; }
-            TaskOS task = new TaskOS(++id, int.Parse(memory.Text), int.Parse(numberOfCommands.Text), 0, 0, 0, status.Idle);
+            TaskOS task = new TaskOS(++id, int.Parse(memory.Text), int.Parse(numberOfCommands.Text), 0, int.Parse(textBox2.Text), int.Parse(textBox3.Text), status.Idle);
             queueNew.Enqueue(task);
             dataGridViewTasks.Rows.Add(task.TASK_ID, task.V_TASK, task.N_CMD, task.currentCommand, task.COMMAND);
         }
@@ -294,7 +295,7 @@ namespace OSANDREEV
                 {
                     return;
                 }
-                speedOSint = trackBar1.Value;
+                speedOSint = int.Parse(speedOS.Text);
                 foreach (Processor cpu in CPUs)
                 {
                     cpu.speedOS = speedOSint;
@@ -413,7 +414,7 @@ namespace OSANDREEV
                 while (isAutoOn)
                 {
                     if (string.IsNullOrWhiteSpace(memory.Text) || string.IsNullOrWhiteSpace(numberOfCommands.Text)) { MessageBox.Show("Значения не должны быть пустыми", "Ошибка", MessageBoxButtons.OK); { return; } }
-                    TaskOS task = new TaskOS(++id, int.Parse(memory.Text), int.Parse(numberOfCommands.Text), 0, 0, 0, status.Idle);
+                    TaskOS task = new TaskOS(++id, int.Parse(memory.Text), int.Parse(numberOfCommands.Text), 0, int.Parse(textBox2.Text), int.Parse(textBox3.Text), status.Idle);
                     queueNew.Enqueue(task);
 
 
@@ -434,6 +435,22 @@ namespace OSANDREEV
         private void addTaskAuto_Click(object sender, EventArgs e)
         {
             isAutoOn = !isAutoOn;
+        }
+
+        private void textBox2_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void textBox3_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true;
+            }
         }
     }
 }

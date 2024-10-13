@@ -59,6 +59,7 @@ namespace OSANDREEV
                         statusDoing();
                         _form.passiveQueue.Enqueue(doTask(currentTask));
                         statusWait();
+                        currentTask = null;
                     }
                     else
                     {
@@ -143,7 +144,7 @@ namespace OSANDREEV
             Console.WriteLine(speed);
             if(speed == 0 || speedOS == 0)
             {
-                Thread.Sleep(Convert.ToInt32(5000 / 100 * 100));
+                Thread.Sleep(Convert.ToInt32(1000 / 100 * 100));
             }
             else Thread.Sleep(Convert.ToInt32(speedOS / speed * 100));
 

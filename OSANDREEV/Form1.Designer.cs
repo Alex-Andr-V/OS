@@ -75,6 +75,10 @@
             this.labelStatusCPU1 = new System.Windows.Forms.Label();
             this.labelStatusCPU2 = new System.Windows.Forms.Label();
             this.labelStatusCPU3 = new System.Windows.Forms.Label();
+            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.label21 = new System.Windows.Forms.Label();
+            this.label22 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewTasks)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar2)).BeginInit();
@@ -521,11 +525,51 @@
             this.labelStatusCPU3.TabIndex = 44;
             this.labelStatusCPU3.Text = "notInitialized";
             // 
+            // textBox2
+            // 
+            this.textBox2.Location = new System.Drawing.Point(333, 107);
+            this.textBox2.Name = "textBox2";
+            this.textBox2.Size = new System.Drawing.Size(100, 20);
+            this.textBox2.TabIndex = 45;
+            this.textBox2.Text = "20";
+            this.textBox2.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox2_KeyPress);
+            // 
+            // textBox3
+            // 
+            this.textBox3.Location = new System.Drawing.Point(333, 135);
+            this.textBox3.Name = "textBox3";
+            this.textBox3.Size = new System.Drawing.Size(100, 20);
+            this.textBox3.TabIndex = 46;
+            this.textBox3.Text = "300";
+            this.textBox3.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox3_KeyPress);
+            // 
+            // label21
+            // 
+            this.label21.AutoSize = true;
+            this.label21.Location = new System.Drawing.Point(213, 110);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(96, 13);
+            this.label21.TabIndex = 47;
+            this.label21.Text = "Комманды ВВ (%)";
+            // 
+            // label22
+            // 
+            this.label22.AutoSize = true;
+            this.label22.Location = new System.Drawing.Point(213, 141);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(114, 13);
+            this.label22.TabIndex = 48;
+            this.label22.Text = "Длительность ВВ (%)";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1127, 643);
+            this.Controls.Add(this.label22);
+            this.Controls.Add(this.label21);
+            this.Controls.Add(this.textBox3);
+            this.Controls.Add(this.textBox2);
             this.Controls.Add(this.labelStatusCPU3);
             this.Controls.Add(this.labelStatusCPU2);
             this.Controls.Add(this.labelStatusCPU1);
@@ -630,6 +674,10 @@
         public System.Windows.Forms.Label labelStatusCPU1;
         public System.Windows.Forms.Label labelStatusCPU2;
         public System.Windows.Forms.Label labelStatusCPU3;
+        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.Label label21;
+        private System.Windows.Forms.Label label22;
     }
 }
 
