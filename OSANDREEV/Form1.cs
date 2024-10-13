@@ -315,45 +315,49 @@ namespace OSANDREEV
         {
             if (dataGridViewTasks.CurrentRow != null)
             {
-                DataGridViewRow selectedRow = dataGridViewTasks.CurrentRow;
-                int statusColumnIndex = dataGridViewTasks.Columns["dgvColumnStatus"].Index;
-                int idColumnIndex = dataGridViewTasks.Columns["dgvColumnId"].Index;
-                //selectedRow.Cells[statusColumnIndex].Value = status.Blocked; 
-                dataGridViewTasks.Refresh();
-                if (selectedRow.Cells[statusColumnIndex].Value == null)
+                lock (queueLock)
                 {
-                    return;
-                }
-                if (selectedRow.Cells[statusColumnIndex].Value.ToString() == status.Blocked)
-                {
-                    selectedRow.Cells[statusColumnIndex].Value = status.Idle;
-                }
-                else if(selectedRow.Cells[statusColumnIndex].Value.ToString() == status.Idle)
-                {
-                    selectedRow.Cells[statusColumnIndex].Value = status.Blocked;
-                }
+                    DataGridViewRow selectedRow = dataGridViewTasks.CurrentRow;
+                    int statusColumnIndex = dataGridViewTasks.Columns["dgvColumnStatus"].Index;
+                    int idColumnIndex = dataGridViewTasks.Columns["dgvColumnId"].Index;
+                    //selectedRow.Cells[statusColumnIndex].Value = status.Blocked; 
+                    dataGridViewTasks.Refresh();
+                    if (selectedRow.Cells[statusColumnIndex].Value == null)
+                    {
+                        return;
+                    }
+                    if (selectedRow.Cells[statusColumnIndex].Value.ToString() == status.Blocked)
+                    {
+                        selectedRow.Cells[statusColumnIndex].Value = status.Idle;
+                    }
+                    else if (selectedRow.Cells[statusColumnIndex].Value.ToString() == status.Idle)
+                    {
+                        selectedRow.Cells[statusColumnIndex].Value = status.Blocked;
+                    }
 
-                foreach (TaskOS taskOS in queueOne) 
-                {
-                    if (int.Parse(selectedRow.Cells[idColumnIndex].Value.ToString()) == taskOS.TASK_ID)
+                    foreach (TaskOS taskOS in queueOne)
                     {
-                        taskOS.COMMAND = selectedRow.Cells[statusColumnIndex].Value.ToString();
-                    } 
-                };
-                foreach (TaskOS taskOS in queueTwo)
-                {
-                    if (int.Parse(selectedRow.Cells[idColumnIndex].Value.ToString()) == taskOS.TASK_ID)
+                        if (int.Parse(selectedRow.Cells[idColumnIndex].Value.ToString()) == taskOS.TASK_ID)
+                        {
+                            taskOS.COMMAND = selectedRow.Cells[statusColumnIndex].Value.ToString();
+                        }
+                    };
+                    foreach (TaskOS taskOS in queueTwo)
                     {
-                        taskOS.COMMAND = selectedRow.Cells[statusColumnIndex].Value.ToString();
-                    }
-                };
-                foreach (TaskOS taskOS in queueBlocked)
-                {
-                    if (int.Parse(selectedRow.Cells[idColumnIndex].Value.ToString()) == taskOS.TASK_ID)
+                        if (int.Parse(selectedRow.Cells[idColumnIndex].Value.ToString()) == taskOS.TASK_ID)
+                        {
+                            taskOS.COMMAND = selectedRow.Cells[statusColumnIndex].Value.ToString();
+                        }
+                    };
+                    foreach (TaskOS taskOS in queueBlocked)
                     {
-                        taskOS.COMMAND = selectedRow.Cells[statusColumnIndex].Value.ToString();
-                    }
-                };
+                        if (int.Parse(selectedRow.Cells[idColumnIndex].Value.ToString()) == taskOS.TASK_ID)
+                        {
+                            taskOS.COMMAND = selectedRow.Cells[statusColumnIndex].Value.ToString();
+                        }
+                    };
+
+                }
 
             }
             else
