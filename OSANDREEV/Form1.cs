@@ -28,6 +28,8 @@ namespace OSANDREEV
         public volatile bool isAutoOn = false;
         int id = 0;
         public int speedOSint;
+        public int OSmemory = 100000;
+        public int RemainingMemory = 100000;
         public async void  planner()
         {
             while (true)
@@ -207,10 +209,14 @@ namespace OSANDREEV
 
         private void addTask_Click(object sender, EventArgs e)
         {
-            if ( string.IsNullOrWhiteSpace(memory.Text) || string.IsNullOrWhiteSpace(numberOfCommands.Text)) { MessageBox.Show("Значения не должны быть пустыми", "Ошибка", MessageBoxButtons.OK); return; }
+            if (string.IsNullOrWhiteSpace(memory.Text) || string.IsNullOrWhiteSpace(numberOfCommands.Text)) { MessageBox.Show("Значения не должны быть пустыми", "Ошибка", MessageBoxButtons.OK); return; }
+            if (RemainingMemory < int.Parse(memory.Text)) { MessageBox.Show("Не осталось памяти", "Ошибка", MessageBoxButtons.OK); return; }
             TaskOS task = new TaskOS(++id, int.Parse(memory.Text), int.Parse(numberOfCommands.Text), 0, int.Parse(textBox2.Text), int.Parse(textBox3.Text), status.Idle);
             queueNew.Enqueue(task);
             dataGridViewTasks.Rows.Add(task.TASK_ID, task.V_TASK, task.N_CMD, task.currentCommand, task.COMMAND);
+            RemainingMemory -= int.Parse(memory.Text);
+            Invoke((MethodInvoker)(() => label24.Text = RemainingMemory.ToString()));
+
         }
 
         private void memory_KeyPress(object sender, KeyPressEventArgs e)
@@ -413,7 +419,8 @@ namespace OSANDREEV
             {
                 while (isAutoOn)
                 {
-                    if (string.IsNullOrWhiteSpace(memory.Text) || string.IsNullOrWhiteSpace(numberOfCommands.Text)) { MessageBox.Show("Значения не должны быть пустыми", "Ошибка", MessageBoxButtons.OK); { return; } }
+                    if (string.IsNullOrWhiteSpace(memory.Text) || string.IsNullOrWhiteSpace(numberOfCommands.Text)) { MessageBox.Show("Значения не должны быть пустыми", "Ошибка", MessageBoxButtons.OK); { isAutoOn = false; break; } }
+                    if (RemainingMemory < int.Parse(memory.Text)) { MessageBox.Show("Не осталось памяти", "Ошибка", MessageBoxButtons.OK); isAutoOn = false; break;  }
                     TaskOS task = new TaskOS(++id, int.Parse(memory.Text), int.Parse(numberOfCommands.Text), 0, int.Parse(textBox2.Text), int.Parse(textBox3.Text), status.Idle);
                     queueNew.Enqueue(task);
 
@@ -426,6 +433,8 @@ namespace OSANDREEV
                     {
                         dataGridViewTasks.Rows.Add(task.TASK_ID, task.V_TASK, task.N_CMD, task.currentCommand, task.COMMAND);
                     }
+                    RemainingMemory -= int.Parse(memory.Text);
+                    Invoke((MethodInvoker)(() => label24.Text = RemainingMemory.ToString()));
 
 
                     Thread.Sleep(1000);
