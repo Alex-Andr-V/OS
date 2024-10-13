@@ -33,70 +33,78 @@ namespace OSANDREEV
             {
                 while (_form.isModelOn)
                 {
+                    bool lockTaken = false;
                     try
                     {
-                        // Попытка получить задачу от планировщика
-                        currentTask = _form.giveTask();
+                        Monitor.TryEnter(_form, ref lockTaken);
+                        if (lockTaken)
+                        {
+                            currentTask = _form.giveTask();
+                        }
+                        else
+                        {
+                            statusWait();
+                        }
                     }
-                    catch (SynchronizationLockException)
+                    finally
                     {
-                        // Обработка ситуации, если блокировка не была получена
-                        if (ID == 1)
+                        if (lockTaken)
                         {
-                            _form.Invoke((MethodInvoker)(() => _form.labelStatusCPU1.Text = "Ожидание планировщика"));
+                            Monitor.Exit(_form);
                         }
-                        else if (ID == 2)
-                        {
-                            _form.Invoke((MethodInvoker)(() => _form.labelStatusCPU2.Text = "Ожидание планировщика"));
-                        }
-                        else if (ID == 3)
-                        {
-                            _form.Invoke((MethodInvoker)(() => _form.labelStatusCPU3.Text = "Ожидание планировщика"));
-                        }
-                        Console.WriteLine($"Процессор {ID} ожидает планировщика...");
                     }
-                    // делаем задачу
+
                     if (currentTask != null)
                     {
-                        Console.WriteLine($"Процессор {ID} выполняет задачу {currentTask.TASK_ID}");
-                        if (ID == 1)
-                        {
-                            _form.Invoke((MethodInvoker)(() =>
-                                _form.labelStatusCPU1.Text = $"Процессор {ID} выполняет задачу {currentTask.TASK_ID}"));
-                        }
-                        else if (ID == 2)
-                        {
-                            _form.Invoke((MethodInvoker)(() =>
-                                _form.labelStatusCPU2.Text = $"Процессор {ID} выполняет задачу {currentTask.TASK_ID}"));
-                        }
-                        else if (ID == 3)
-                        {
-                            _form.Invoke((MethodInvoker)(() =>
-                                _form.labelStatusCPU3.Text = $"Процессор {ID} выполняет задачу {currentTask.TASK_ID}"));
-                        }
-
+                        statusDoing();
                         _form.passiveQueue.Enqueue(doTask(currentTask));
+                        statusWait();
                     }
                     else
                     {
-                        // Если задач нет, делаем паузу перед следующим запросом
-                        if (ID == 1)
-                        {
-                            _form.Invoke((MethodInvoker)(() => _form.labelStatusCPU1.Text = "Ожидание планировщика"));
-                        }
-                        else if (ID == 2)
-                        {
-                            _form.Invoke((MethodInvoker)(() => _form.labelStatusCPU2.Text = "Ожидание планировщика"));
-                        }
-                        else if (ID == 3)
-                        {
-                            _form.Invoke((MethodInvoker)(() => _form.labelStatusCPU3.Text = "Ожидание планировщика"));
-                        }
-                        //Console.WriteLine($"Процессор {ID} не нашел задачи. Ожидание...");
+                        statusWait();
                         Thread.Sleep(100);
                     }
+
+
                 }
 
+            }
+        }
+
+        public void statusWait()
+        {
+            if (ID == 1)
+            {
+                _form.Invoke((MethodInvoker)(() => _form.labelStatusCPU1.Text = "Ожидание планировщика"));
+            }
+            else if (ID == 2)
+            {
+                _form.Invoke((MethodInvoker)(() => _form.labelStatusCPU2.Text = "Ожидание планировщика"));
+            }
+            else if (ID == 3)
+            {
+                _form.Invoke((MethodInvoker)(() => _form.labelStatusCPU3.Text = "Ожидание планировщика"));
+            }
+        }
+
+        public void statusDoing()
+        {
+            Console.WriteLine($"Процессор {ID} выполняет задачу {currentTask.TASK_ID}");
+            if (ID == 1)
+            {
+                _form.Invoke((MethodInvoker)(() =>
+                    _form.labelStatusCPU1.Text = $"Процессор {ID} выполняет задачу {currentTask.TASK_ID}"));
+            }
+            else if (ID == 2)
+            {
+                _form.Invoke((MethodInvoker)(() =>
+                    _form.labelStatusCPU2.Text = $"Процессор {ID} выполняет задачу {currentTask.TASK_ID}"));
+            }
+            else if (ID == 3)
+            {
+                _form.Invoke((MethodInvoker)(() =>
+                    _form.labelStatusCPU3.Text = $"Процессор {ID} выполняет задачу {currentTask.TASK_ID}"));
             }
         }
 

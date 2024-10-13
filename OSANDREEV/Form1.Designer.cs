@@ -196,11 +196,11 @@
             // 
             // speedOS
             // 
-            this.speedOS.Enabled = false;
-            this.speedOS.Location = new System.Drawing.Point(365, 17);
+            this.speedOS.Location = new System.Drawing.Point(368, 14);
             this.speedOS.Name = "speedOS";
             this.speedOS.Size = new System.Drawing.Size(100, 20);
             this.speedOS.TabIndex = 8;
+            this.speedOS.Text = "1000";
             this.speedOS.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.speedOS_KeyPress);
             // 
             // CPU1_Label
@@ -215,7 +215,7 @@
             // CPU2_Label
             // 
             this.CPU2_Label.AutoSize = true;
-            this.CPU2_Label.Location = new System.Drawing.Point(21, 277);
+            this.CPU2_Label.Location = new System.Drawing.Point(18, 310);
             this.CPU2_Label.Name = "CPU2_Label";
             this.CPU2_Label.Size = new System.Drawing.Size(38, 13);
             this.CPU2_Label.TabIndex = 10;
@@ -224,7 +224,7 @@
             // CPU3_Label
             // 
             this.CPU3_Label.AutoSize = true;
-            this.CPU3_Label.Location = new System.Drawing.Point(21, 354);
+            this.CPU3_Label.Location = new System.Drawing.Point(21, 427);
             this.CPU3_Label.Name = "CPU3_Label";
             this.CPU3_Label.Size = new System.Drawing.Size(38, 13);
             this.CPU3_Label.TabIndex = 11;
@@ -242,7 +242,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(36, 296);
+            this.label2.Location = new System.Drawing.Point(33, 329);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(38, 13);
             this.label2.TabIndex = 16;
@@ -251,7 +251,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(36, 377);
+            this.label3.Location = new System.Drawing.Point(36, 450);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(38, 13);
             this.label3.TabIndex = 17;
@@ -286,7 +286,7 @@
             // 
             // trackBar3
             // 
-            this.trackBar3.Location = new System.Drawing.Point(80, 296);
+            this.trackBar3.Location = new System.Drawing.Point(77, 329);
             this.trackBar3.Maximum = 150;
             this.trackBar3.Minimum = 50;
             this.trackBar3.Name = "trackBar3";
@@ -298,7 +298,7 @@
             // 
             // trackBar4
             // 
-            this.trackBar4.Location = new System.Drawing.Point(80, 377);
+            this.trackBar4.Location = new System.Drawing.Point(80, 450);
             this.trackBar4.Maximum = 150;
             this.trackBar4.Minimum = 50;
             this.trackBar4.Name = "trackBar4";
@@ -320,7 +320,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(210, 296);
+            this.label5.Location = new System.Drawing.Point(207, 329);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(85, 13);
             this.label5.TabIndex = 23;
@@ -329,7 +329,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(210, 377);
+            this.label6.Location = new System.Drawing.Point(210, 450);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(85, 13);
             this.label6.TabIndex = 24;
@@ -347,7 +347,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(301, 296);
+            this.label8.Location = new System.Drawing.Point(298, 329);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(13, 13);
             this.label8.TabIndex = 26;
@@ -356,7 +356,7 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(301, 377);
+            this.label9.Location = new System.Drawing.Point(301, 450);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(13, 13);
             this.label9.TabIndex = 27;
@@ -405,7 +405,7 @@
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(77, 429);
+            this.label13.Location = new System.Drawing.Point(77, 502);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(30, 13);
             this.label13.TabIndex = 32;
@@ -414,7 +414,7 @@
             // label14
             // 
             this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(151, 429);
+            this.label14.Location = new System.Drawing.Point(151, 502);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(33, 13);
             this.label14.TabIndex = 33;
@@ -423,7 +423,7 @@
             // label15
             // 
             this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(151, 344);
+            this.label15.Location = new System.Drawing.Point(148, 377);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(33, 13);
             this.label15.TabIndex = 35;
@@ -432,7 +432,7 @@
             // label16
             // 
             this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(77, 344);
+            this.label16.Location = new System.Drawing.Point(74, 377);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(30, 13);
             this.label16.TabIndex = 34;
@@ -471,7 +471,7 @@
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(100, 20);
             this.textBox1.TabIndex = 39;
-            this.textBox1.Text = "1000";
+            this.textBox1.Text = "5000";
             this.textBox1.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox1_KeyPress);
             this.textBox1.Leave += new System.EventHandler(this.textBox1_Leave);
             // 
@@ -506,7 +506,7 @@
             // labelStatusCPU2
             // 
             this.labelStatusCPU2.AutoSize = true;
-            this.labelStatusCPU2.Location = new System.Drawing.Point(365, 295);
+            this.labelStatusCPU2.Location = new System.Drawing.Point(362, 328);
             this.labelStatusCPU2.Name = "labelStatusCPU2";
             this.labelStatusCPU2.Size = new System.Drawing.Size(65, 13);
             this.labelStatusCPU2.TabIndex = 43;
@@ -515,7 +515,7 @@
             // labelStatusCPU3
             // 
             this.labelStatusCPU3.AutoSize = true;
-            this.labelStatusCPU3.Location = new System.Drawing.Point(365, 376);
+            this.labelStatusCPU3.Location = new System.Drawing.Point(365, 449);
             this.labelStatusCPU3.Name = "labelStatusCPU3";
             this.labelStatusCPU3.Size = new System.Drawing.Size(65, 13);
             this.labelStatusCPU3.TabIndex = 44;

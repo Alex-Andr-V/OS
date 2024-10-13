@@ -155,8 +155,11 @@ namespace OSANDREEV
         {
             lock (queueLock)
                 {
-                while(activeQueue.Count != 0)
+                Thread.Sleep(500);
+
+                while (activeQueue.Count != 0)
                 {
+
                     TaskOS peek = null;
                     if (activeQueue.Count > 0)
                     {
@@ -284,6 +287,18 @@ namespace OSANDREEV
             if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
             {
                 e.Handled = true;
+            }
+            if (e.KeyChar == 13)
+            {
+                if (string.IsNullOrWhiteSpace(textBox1.Text))
+                {
+                    return;
+                }
+                speedOSint = trackBar1.Value;
+                foreach (Processor cpu in CPUs)
+                {
+                    cpu.speedOS = speedOSint;
+                }
             }
         }
 
