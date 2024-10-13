@@ -71,6 +71,10 @@
             this.label19 = new System.Windows.Forms.Label();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.addTaskAuto = new System.Windows.Forms.Button();
+            this.label20 = new System.Windows.Forms.Label();
+            this.labelStatusCPU1 = new System.Windows.Forms.Label();
+            this.labelStatusCPU2 = new System.Windows.Forms.Label();
+            this.labelStatusCPU3 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewTasks)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar2)).BeginInit();
@@ -481,11 +485,51 @@
             this.addTaskAuto.UseVisualStyleBackColor = true;
             this.addTaskAuto.Click += new System.EventHandler(this.addTaskAuto_Click);
             // 
+            // label20
+            // 
+            this.label20.AutoSize = true;
+            this.label20.Location = new System.Drawing.Point(377, 167);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(37, 13);
+            this.label20.TabIndex = 41;
+            this.label20.Text = "Status";
+            // 
+            // labelStatusCPU1
+            // 
+            this.labelStatusCPU1.AutoSize = true;
+            this.labelStatusCPU1.Location = new System.Drawing.Point(365, 212);
+            this.labelStatusCPU1.Name = "labelStatusCPU1";
+            this.labelStatusCPU1.Size = new System.Drawing.Size(65, 13);
+            this.labelStatusCPU1.TabIndex = 42;
+            this.labelStatusCPU1.Text = "notInitialized";
+            // 
+            // labelStatusCPU2
+            // 
+            this.labelStatusCPU2.AutoSize = true;
+            this.labelStatusCPU2.Location = new System.Drawing.Point(365, 295);
+            this.labelStatusCPU2.Name = "labelStatusCPU2";
+            this.labelStatusCPU2.Size = new System.Drawing.Size(65, 13);
+            this.labelStatusCPU2.TabIndex = 43;
+            this.labelStatusCPU2.Text = "notInitialized";
+            // 
+            // labelStatusCPU3
+            // 
+            this.labelStatusCPU3.AutoSize = true;
+            this.labelStatusCPU3.Location = new System.Drawing.Point(365, 376);
+            this.labelStatusCPU3.Name = "labelStatusCPU3";
+            this.labelStatusCPU3.Size = new System.Drawing.Size(65, 13);
+            this.labelStatusCPU3.TabIndex = 44;
+            this.labelStatusCPU3.Text = "notInitialized";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1127, 643);
+            this.Controls.Add(this.labelStatusCPU3);
+            this.Controls.Add(this.labelStatusCPU2);
+            this.Controls.Add(this.labelStatusCPU1);
+            this.Controls.Add(this.label20);
             this.Controls.Add(this.addTaskAuto);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.label19);
@@ -582,6 +626,10 @@
         private System.Windows.Forms.Label label19;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Button addTaskAuto;
+        private System.Windows.Forms.Label label20;
+        public System.Windows.Forms.Label labelStatusCPU1;
+        public System.Windows.Forms.Label labelStatusCPU2;
+        public System.Windows.Forms.Label labelStatusCPU3;
     }
 }
 
