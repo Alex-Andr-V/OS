@@ -13,15 +13,16 @@ namespace OSANDREEV
 {
     public partial class Form1 : Form
     {
-        Queue<TaskOS> queueOne = new Queue<TaskOS>();
-        Queue<TaskOS> queueTwo = new Queue<TaskOS>();
-        Queue<TaskOS> queueNew = new Queue<TaskOS>();
-        Queue<TaskOS> queueBlocked = new Queue<TaskOS>();
-        Queue<TaskOS> queueBlocked2 = new Queue<TaskOS>();
-        Processor[] CPUs = new Processor[3];
+        private object queueLock = new object();
+        public Queue<TaskOS> queueOne = new Queue<TaskOS>();
+        public Queue<TaskOS> queueTwo = new Queue<TaskOS>();
+        public Queue<TaskOS> queueNew = new Queue<TaskOS>();
+        public Queue<TaskOS> queueBlocked = new Queue<TaskOS>();
+        public Queue<TaskOS> queueBlocked2 = new Queue<TaskOS>();
+        public Processor[] CPUs = new Processor[3];
 
-        Queue<TaskOS> activeQueue;
-        Queue<TaskOS> passiveQueue;
+        public Queue<TaskOS> activeQueue;
+        public Queue<TaskOS> passiveQueue;
 
         public volatile bool isModelOn = false;
         public volatile bool isAutoOn = false;
@@ -33,95 +34,151 @@ namespace OSANDREEV
             {
                 while (isModelOn)
                 {
-                    while (queueNew.Count != 0)
+                    lock (queueLock)
                     {
-                        passiveQueue.Enqueue(queueNew.Dequeue());
-                    }
-
-                    while(queueBlocked.Count != 0) 
-                    {
-                        TaskOS p = queueBlocked.Peek();
-                        if (p.COMMAND == status.Blocked)
+                        //добавление новых задач
+                        while (queueNew.Count != 0)
                         {
-                            queueBlocked2.Enqueue(queueBlocked.Dequeue());
+                            passiveQueue.Enqueue(queueNew.Dequeue());
                         }
-                        else
+                        /////////////////////
+                        
+                        //блокировка разблокировка
+                        while (queueBlocked.Count != 0)
                         {
-                            passiveQueue.Enqueue(queueBlocked.Dequeue());
-                        }
-                    }
-                    changeQueues(ref queueBlocked, ref queueBlocked2);
-                    while (activeQueue.Count != 0)
-                    {
-                        List<Task> tasks = new List<Task>();
-
-                        foreach (Processor cpu in CPUs)
-                        {
-                            if (activeQueue.Count == 0) break;
-
-                            tasks.Add(Task.Run(() =>
+                            TaskOS p = queueBlocked.Peek();
+                            if (p.COMMAND == status.Blocked)
                             {
-                                TaskOS task = null;
-                                TaskOS peek = null;
-                                lock (passiveQueue)
-                                {
-                                    lock (activeQueue )
-                                    {
-                                        if (activeQueue.Count > 0)
-                                        {
-                                            peek = activeQueue.Peek();
-                                            if(peek.COMMAND == status.Blocked) { queueBlocked.Enqueue(activeQueue.Dequeue()); }
-                                        }
-                                        if (passiveQueue.Count > 0)
-                                        {
-                                            peek = passiveQueue.Peek();
-                                            if (peek.COMMAND == status.Blocked) { queueBlocked.Enqueue(passiveQueue.Dequeue()); }
-                                        }
-
-                                        if (activeQueue.Count > 0)
-                                        {
-                                            task = activeQueue.Dequeue();
-                                        }
-                                        else if (passiveQueue.Count > 0)
-                                        {
-                                            task = passiveQueue.Dequeue();
-                                        }
-                                        if (task == null) return;
-                                    }
-
-                                }
-                                
-                                var result = cpu.doTask(task);
-                                lock (passiveQueue)
-                                {
-                                    passiveQueue.Enqueue(result);
-                                }
-                            }));
+                                queueBlocked2.Enqueue(queueBlocked.Dequeue());
+                            }
+                            else
+                            {
+                                passiveQueue.Enqueue(queueBlocked.Dequeue());
+                            }
                         }
-                        await Task.WhenAll(tasks);
+                        changeQueues(ref queueBlocked, ref queueBlocked2);
+                        //////////////////////////
+                        if(activeQueue.Count == 0 && passiveQueue.Count != 0)
+                        {
+                            while(passiveQueue.Count != 0)
+                            {
+                                if(passiveQueue.Peek().COMMAND != status.Blocked)
+                                {
+                                activeQueue.Enqueue(passiveQueue.Dequeue());
+                                }
+                                else
+                                {
+                                    queueBlocked.Enqueue(passiveQueue.Dequeue());
+                                }
+                            }
+                        }
+
+                        // удаление выполненных
+                        foreach (TaskOS X in activeQueue)
+                        {
+                            if (X == null) break;
+                            if (X.COMMAND == status.Completed) DeleteRowById(X.TASK_ID);
+                        }
                     }
-                    changeQueues(ref activeQueue, ref passiveQueue);
 
 
-                    foreach (TaskOS X in activeQueue)
-                    {
-                        if (X == null) break;
-                        if (X.COMMAND == status.Completed) DeleteRowById(X.TASK_ID);
-                    }
+
+
+
+
+
+                    //
+                    //while (activeQueue.Count != 0)
+                    //{
+                    //    List<Task> tasks = new List<Task>();
+
+                    //    foreach (Processor cpu in CPUs)
+                    //    {
+                    //        if (activeQueue.Count == 0) break;
+
+                    //        tasks.Add(Task.Run(() =>
+                    //        {
+                    //            TaskOS task = null;
+                    //            TaskOS peek = null;
+                    //            lock (passiveQueue)
+                    //            {
+                    //                lock (activeQueue )
+                    //                {
+                    //                    if (activeQueue.Count > 0)
+                    //                    {
+                    //                        peek = activeQueue.Peek();
+                    //                        if(peek.COMMAND == status.Blocked) { queueBlocked.Enqueue(activeQueue.Dequeue()); }
+                    //                    }
+                    //                    if (passiveQueue.Count > 0)
+                    //                    {
+                    //                        peek = passiveQueue.Peek();
+                    //                        if (peek.COMMAND == status.Blocked) { queueBlocked.Enqueue(passiveQueue.Dequeue()); }
+                    //                    }
+
+                    //                    if (activeQueue.Count > 0)
+                    //                    {
+                    //                        task = activeQueue.Dequeue();
+                    //                    }
+                    //                    else if (passiveQueue.Count > 0)
+                    //                    {
+                    //                        task = passiveQueue.Dequeue();
+                    //                    }
+                    //                    if (task == null) return;
+                    //                }
+
+                    //            }
+
+                    //            var result = cpu.doTask(task);
+                    //            lock (passiveQueue)
+                    //            {
+                    //                passiveQueue.Enqueue(result);
+                    //            }
+                    //        }));
+                    //    }
+                    //    await Task.WhenAll(tasks);
+                    //}
+                    //changeQueues(ref activeQueue, ref passiveQueue);
+
+                    //удаление выполненных.
+                    //foreach (TaskOS X in activeQueue)
+                    //{
+                    //    if (X == null) break;
+                    //    if (X.COMMAND == status.Completed) DeleteRowById(X.TASK_ID);
+                    //}
                 }
                 Thread.Sleep(300);
             }
             
         }
 
+        public TaskOS giveTask()
+        {
+            lock (queueLock)
+                {
+                while(activeQueue.Count != 0)
+                {
+                    TaskOS peek = null;
+                    if (activeQueue.Count > 0)
+                    {
+                        peek = activeQueue.Peek();
+                        if (peek.COMMAND == status.Blocked) { queueBlocked.Enqueue(activeQueue.Dequeue()); }
+                    }
+                    if (activeQueue.Count != 0 && activeQueue.Peek().COMMAND != status.Blocked)
+                    {
+                        return activeQueue.Dequeue();
+                    }
+                }
+                return null;
+                }
+        }
 
         public Form1()
         {
             activeQueue = queueOne;
             passiveQueue = queueTwo;
-            CPUs[0] = new Processor(this, speedOSint);
-            CPUs[1] = new Processor(this, speedOSint);
-            CPUs[2] = new Processor(this, speedOSint);
+            CPUs[0] = new Processor(this, speedOSint, 1);
+            CPUs[1] = new Processor(this, speedOSint, 2);
+            CPUs[2] = new Processor(this, speedOSint, 3);
 
 
             InitializeComponent();
@@ -131,6 +188,10 @@ namespace OSANDREEV
         {
             Task.Run(() => planner());
             Task.Run(() => AutoAdd());
+            Task.Run(() => CPUs[0].run());
+            Task.Run(() => CPUs[1].run());
+            Task.Run(() => CPUs[2].run());
+            
         }
 
         private void changeQueues(ref Queue<TaskOS> activeQueue, ref Queue<TaskOS> passiveQueue)

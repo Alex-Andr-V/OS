@@ -89,10 +89,10 @@
             this.dgvColumnCurrentCommand,
             this.dgvColumnStatus});
             this.dataGridViewTasks.Dock = System.Windows.Forms.DockStyle.Right;
-            this.dataGridViewTasks.Location = new System.Drawing.Point(620, 0);
+            this.dataGridViewTasks.Location = new System.Drawing.Point(633, 0);
             this.dataGridViewTasks.Name = "dataGridViewTasks";
             this.dataGridViewTasks.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridViewTasks.Size = new System.Drawing.Size(507, 643);
+            this.dataGridViewTasks.Size = new System.Drawing.Size(494, 643);
             this.dataGridViewTasks.TabIndex = 0;
             // 
             // dgvColumnId
@@ -361,7 +361,7 @@
             // button1
             // 
             this.button1.Dock = System.Windows.Forms.DockStyle.Right;
-            this.button1.Location = new System.Drawing.Point(520, 0);
+            this.button1.Location = new System.Drawing.Point(533, 0);
             this.button1.MaximumSize = new System.Drawing.Size(200, 40);
             this.button1.MinimumSize = new System.Drawing.Size(10, 10);
             this.button1.Name = "button1";

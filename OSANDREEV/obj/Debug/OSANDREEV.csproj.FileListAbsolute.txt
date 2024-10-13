@@ -18,3 +18,13 @@ D:\OSANDREEV\OSANDREEV\obj\Debug\OSANDREEV.csproj.GenerateResource.cache
 D:\OSANDREEV\OSANDREEV\obj\Debug\OSANDREEV.csproj.CoreCompileInputs.cache
 D:\OSANDREEV\OSANDREEV\obj\Debug\OSANDREEV.exe
 D:\OSANDREEV\OSANDREEV\obj\Debug\OSANDREEV.pdb
+C:\GitRepos\OS\OSANDREEV\bin\Debug\OSANDREEV.exe.config
+C:\GitRepos\OS\OSANDREEV\bin\Debug\OSANDREEV.exe
+C:\GitRepos\OS\OSANDREEV\bin\Debug\OSANDREEV.pdb
+C:\GitRepos\OS\OSANDREEV\obj\Debug\OSANDREEV.csproj.AssemblyReference.cache
+C:\GitRepos\OS\OSANDREEV\obj\Debug\OSANDREEV.Form1.resources
+C:\GitRepos\OS\OSANDREEV\obj\Debug\OSANDREEV.Properties.Resources.resources
+C:\GitRepos\OS\OSANDREEV\obj\Debug\OSANDREEV.csproj.GenerateResource.cache
+C:\GitRepos\OS\OSANDREEV\obj\Debug\OSANDREEV.csproj.CoreCompileInputs.cache
+C:\GitRepos\OS\OSANDREEV\obj\Debug\OSANDREEV.exe
+C:\GitRepos\OS\OSANDREEV\obj\Debug\OSANDREEV.pdb

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace OSANDREEV
 {
-    internal class TaskOS
+    public class TaskOS
     {
         public int TASK_ID;
         public int V_TASK;
