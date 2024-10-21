@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Text.Json;
 
 namespace OSANDREEV
 {
@@ -167,7 +169,7 @@ namespace OSANDREEV
         {
             lock (queueLock)
                 {
-                Thread.Sleep(500);
+                Thread.Sleep(500); //Ожидание для симуляции работы планировщика
 
                 while (activeQueue.Count != 0)
                 {
@@ -470,6 +472,105 @@ namespace OSANDREEV
             {
                 e.Handled = true;
             }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            if (dataGridViewTasks.CurrentRow != null)
+            {
+                lock (queueLock)
+                {
+                    DataGridViewRow selectedRow = dataGridViewTasks.CurrentRow;
+                    int statusColumnIndex = dataGridViewTasks.Columns["dgvColumnStatus"].Index;
+                    int idColumnIndex = dataGridViewTasks.Columns["dgvColumnId"].Index;
+                    //selectedRow.Cells[statusColumnIndex].Value = status.Blocked; 
+                    dataGridViewTasks.Refresh();
+                    if (selectedRow.Cells[statusColumnIndex].Value == null)
+                    {
+                        return;
+                    }
+
+                    foreach (TaskOS taskOS in queueOne)
+                    {
+                        if (int.Parse(selectedRow.Cells[idColumnIndex].Value.ToString()) == taskOS.TASK_ID)
+                        {
+                            taskOS.COMMAND = status.Completed;
+                        }
+                    };
+                    foreach (TaskOS taskOS in queueTwo)
+                    {
+                        if (int.Parse(selectedRow.Cells[idColumnIndex].Value.ToString()) == taskOS.TASK_ID)
+                        {
+                            taskOS.COMMAND = status.Completed;
+                        }
+                    };
+                    foreach (TaskOS taskOS in queueBlocked)
+                    {
+                        if (int.Parse(selectedRow.Cells[idColumnIndex].Value.ToString()) == taskOS.TASK_ID)
+                        {
+                            taskOS.COMMAND = status.Completed;
+                        }
+                    };
+
+                }
+
+            }
+            else
+            {
+                MessageBox.Show("Нет выделенной строки.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+
+        public void LoadSettings()
+        {
+            string configFilePath = "Config.json";
+
+            if (!File.Exists(configFilePath))
+            {
+                Console.WriteLine("Не найден файл");
+            }
+
+            string json = File.ReadAllText(configFilePath);
+
+            using (JsonDocument doc = JsonDocument.Parse(json))
+            {
+                JsonElement root = doc.RootElement;
+                speedOSint = root.GetProperty("speedOSint").GetInt32();
+                OSmemory = root.GetProperty("OSmemory").GetInt32();
+            }
+            UpdateUI();
+        }
+
+        private void UpdateUI()
+        {
+            if (speedOS.InvokeRequired)
+            {
+                speedOS.Invoke(new Action(() => speedOS.Text = speedOSint.ToString()));
+            }
+            else
+            {
+                speedOS.Text = speedOSint.ToString();
+            }
+
+            if (label24.InvokeRequired)
+            {
+                label24.Invoke(new Action(() => label24.Text = OSmemory.ToString()));
+            }
+            else
+            {
+                label24.Text = OSmemory.ToString();
+            }
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            if (isModelOn)
+            {
+                MessageBox.Show("Невозможно загрузить когда работа активна", "Ошибка", MessageBoxButtons.OK);
+                return;
+            }
+            LoadSettings();
         }
     }
 }
