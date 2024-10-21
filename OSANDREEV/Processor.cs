@@ -13,12 +13,12 @@ namespace OSANDREEV
     public class Processor
     {
         public int ID;
-        public int  countOfAllCompletedCommands = 0;
+        public int countOfAllCompletedCommands = 0;
         public int quant = 1000;
         public float speed = 100;
         private Form1 _form;
         public float speedOS = 5000;
-        public TaskOS currentTask; 
+        public TaskOS currentTask;
 
         public Processor(Form1 form, int speedOS, int ID)
         {
@@ -27,7 +27,7 @@ namespace OSANDREEV
             this.ID = ID;
         }
 
-        public void run() 
+        public void run()
         {
             while (true)
             {
@@ -109,7 +109,7 @@ namespace OSANDREEV
             }
         }
 
-        public TaskOS doTask(TaskOS currentTask) 
+        public TaskOS doTask(TaskOS currentTask)
         {
             var watch = System.Diagnostics.Stopwatch.StartNew();
             while (watch.ElapsedMilliseconds < quant)
@@ -118,10 +118,19 @@ namespace OSANDREEV
                 _form.UpdateCellValue(currentTask.TASK_ID, "dgvColumnStatus", currentTask.COMMAND);
                 if (currentTask.currentCommand < currentTask.N_CMD)
                 {
-                doCommand();
-                countOfAllCompletedCommands++;
-                currentTask.currentCommand++;
-                _form.UpdateCellValue(currentTask.TASK_ID, "dgvColumnCurrentCommand", currentTask.currentCommand);
+                    if (currentTask.currentCommand < currentTask.N_CMD * (100 - currentTask.D_IN_OUT)/100)
+                    {
+                        doCommand();
+                    }
+                    else
+                    {
+                        currentTask.COMMAND = status.InOut;
+                        _form.UpdateCellValue(currentTask.TASK_ID, "dgvColumnStatus", currentTask.COMMAND);
+                        doCommandInOut();
+                    }
+                    countOfAllCompletedCommands++;
+                    currentTask.currentCommand++;
+                    _form.UpdateCellValue(currentTask.TASK_ID, "dgvColumnCurrentCommand", currentTask.currentCommand);
                 }
                 else
                 {
@@ -136,18 +145,30 @@ namespace OSANDREEV
                 currentTask.COMMAND = status.Idle;
                 _form.UpdateCellValue(currentTask.TASK_ID, "dgvColumnStatus", currentTask.COMMAND);
             }
-            return currentTask;
+                return currentTask;
+            
+
         }
 
         public void doCommand()
         {
-            Console.WriteLine(speed);
-            if(speed == 0 || speedOS == 0)
+            //Console.WriteLine(speed);
+            if (speed == 0 || speedOS == 0)
             {
                 Thread.Sleep(Convert.ToInt32(1000 / 100 * 100));
             }
             else Thread.Sleep(Convert.ToInt32(speedOS / speed * 100));
 
+        }
+
+        public void doCommandInOut()
+        {
+           // Console.WriteLine(speed);
+            if (speed == 0 || speedOS == 0)
+            {
+                Thread.Sleep(Convert.ToInt32(1000 / 100 * 100 * currentTask.N_IN_OUT / 100));
+            }
+            else Thread.Sleep(Convert.ToInt32(speedOS / speed * 100 * currentTask.N_IN_OUT / 100));
         }
     }
 }

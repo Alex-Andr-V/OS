@@ -13,5 +13,6 @@ namespace OSANDREEV
             public static readonly string InOut = "InOut";
             public static readonly string Blocked = "Блокирован";
             public static readonly string Completed = "Готово";
+
     }
 }

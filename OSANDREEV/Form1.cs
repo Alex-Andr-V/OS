@@ -64,23 +64,32 @@ namespace OSANDREEV
                         {
                             while(passiveQueue.Count != 0)
                             {
-                                if(passiveQueue.Peek().COMMAND != status.Blocked)
+                                if(passiveQueue.Peek().COMMAND != status.Blocked && passiveQueue.Peek().COMMAND != status.Completed)
                                 {
                                 activeQueue.Enqueue(passiveQueue.Dequeue());
                                 }
-                                else
+                                else if (passiveQueue.Peek().COMMAND == status.Blocked)
                                 {
                                     queueBlocked.Enqueue(passiveQueue.Dequeue());
+                                }
+                                else
+                                {
+
+                                    TaskOS DELETEDtaskOS = passiveQueue.Dequeue();
+                                    RemainingMemory += DELETEDtaskOS.V_TASK;
+                                    DeleteRowById(DELETEDtaskOS.TASK_ID);
+
+                                    
                                 }
                             }
                         }
 
                         // удаление выполненных
-                        //foreach (TaskOS X in activeQueue)
-                        //{
-                        //    if (X == null) break;
-                        //    if (X.COMMAND == status.Completed) DeleteRowById(X.TASK_ID);
-                        //}
+                        foreach (TaskOS X in activeQueue)
+                        {
+                            if (X == null) break;
+                            if (X.COMMAND == status.Completed) DeleteRowById(X.TASK_ID);
+                        }
 
                     }
 
@@ -88,7 +97,7 @@ namespace OSANDREEV
 
 
 
-
+                    Invoke((MethodInvoker)(() => label24.Text = RemainingMemory.ToString()));
 
                     //
                     //while (activeQueue.Count != 0)
@@ -268,6 +277,7 @@ namespace OSANDREEV
         }
         private void DeleteRowById(int id)
         {
+
             if (dataGridViewTasks.InvokeRequired)
             {
                 dataGridViewTasks.Invoke(new Action(() => DeleteRowById(id)));
